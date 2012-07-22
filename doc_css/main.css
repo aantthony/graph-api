@@ -1,0 +1,22 @@
+.graph {
+background: 
+#eee;
+height: 220px;
+background-color: 
+whiteSmoke;
+border: 1px solid 
+#CCC;
+border: 1px solid 
+rgba(0, 0, 0, 0.15);
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+padding: 8px;
+}
+.graph iframe {
+border: none;
+width: 100%;
+height: 220px;
+padding: 0;
+margin: 0;
+}

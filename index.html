@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>graph.tk</title>
+	<link href="doc_css/bootstrap.css" type="text/css" rel="stylesheet" media="all" />
+	<link href="doc_css/main.css" type="text/css" rel="stylesheet" media="all" />
+	<link href="doc_css/prettify.css" type="text/css" rel="stylesheet" media="all" />
+	<meta name="viewport" content="user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+	<meta name="description" content="graph.tk is an online and open-source graphing utillity that runs from within your browser." />
+	<meta name="author" content="Anthony" />
+	<link rel="shortcut icon" href="images/favicon.ico" />
+  <script type="text/javascript">var b = [];</script>
+</head>
+<body id="home">
+  <div class="container page">
+    <div class="span12">
+  	<h1>Graph.tk API</h1>
+  	<h3>Embed graphs on pages</h3>
+  	<p>The Graph.tk API is a depency-less javascript file which creates a global function, named <code>Graph</code> which is then used to create an iframe.</p>
+  	<p>To use it, include the following script file just before the end of your body tag. (Hot-linking is recommended so it can be updated):</p>
+  	<pre class="prettyprint">
+&lt;script type="text/javascript" src="http://aantthony.github.com/graph-api/api.js"&gt;&lt;/script&gt;</pre>
+    The <code>Graph</code> function takes two arguments: an (optional) document element (e.g. a div), and an object specifying options.</p>
+<p>This code creates a simple graph viewer: </p>
+<div class="row">
+<div class="span5"><pre class="prettyprint">
+&lt;div id="viewer"&gt;&lt;/div&gt;
+&lt;script type="text/javascript" src="http://aantthony.github.com/graph-api/api.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+var domElement = document.getElementById("viewer_1");
+var g = new Graph(domElement, {
+  equations: ["y=\\sin(x)", "x+y"]
+});
+&lt;/script&gt;
+</pre>
+</div>
+<div class="span5">
+  <div id="viewer_1" class="graph">
+  </div>
+<script type="text/javascript">
+b.push(function(){
+  var domElement = document.getElementById("viewer_1");
+  var g = new Graph(domElement, {
+    equations: ["y=\\sin(x)", "x+y"],
+    camera: {
+      x: 0,
+      y: 1,
+      logitude: 0,
+      latitude: 0
+    }
+  });
+  window.g = g;
+});
+</script>
+</div>
+</div>
+    <!--<h3>Example Usage</h3>-->
+    <pre class="prettyprint" style="display: none">
+&lt;div id="viewer"&gt;&lt;/div&gt;
+&lt;script type="text/javascript" src="http://aantthony.github.com/graph-api/api.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+var domElement = document.getElementById("viewer");
+var g = new Graph(domElement, {
+  graphs: ["y==\\sin(x)"] /* Latex encoded equations */
+});
+/* Define some variables that will be accessible from the API */
+g.real("a");
+g.real("b");
+g.add("y=ax+b");
+
+/* Example animation sequence */
+g
+  .animate(function(t){
+    if(t>5.0){
+      return false;
+    }
+    g.camera.translate(0.01, 0.03, 0.0);
+  })
+  .add("y=x")
+  .animate(function(t) {
+    if(t>5.0){
+      return false;
+    }
+    g.camera.translate(-0.01, -0.03, 0.0);
+  });
+
+&lt;/script&gt;
+    </pre>
+	<h2>Methods</h2>
+	<p>
+	Unless otherwise specified, all methods return the graph instance object, (or an object that has the origional instance object in its prototype chain). This means you can chain commands like <code class="prettyprint">g.add("y=x").add("y=2x")</code>.
+	</p>
+	<h3>Methods which can be used within animations</h3>
+	<ul class="methods-list">
+	
+		<li>
+			<h3 class="name">add<span class="call">(expr)</span></h3>
+			<div class="arguments">Arguments: <code class="prettyprint">String(x)</code>, <code class="prettyprint">Object(options)</code></div>
+			<div class="description">Creates an equation with the given latex expression <code>x</code> and adds it to the graph.</div>
+		</li>
+		<li>
+			<h3 class="name">lookAt<span class="call">(x,y)</span></h3>
+			<div class="arguments">Arguments: <code class="prettyprint">Number(x)</code>, <code class="prettyprint">Number(y)</code></div>
+			<div class="description">In 2D-mode: Instantly translates the camera such that the center of the viewport is the point specified.<br />In 3D mode: Instantly translates the camera in the x and y directions such that the point which the view rotates around becomes the point specified.</div>
+		</li>
+		<li>
+			<h3 class="name">allowUserInput<span class="call">(enabled)</span></h3>
+			<div class="arguments">Arguments: <code class="prettyprint">Boolean(enabled)</code></div>
+			<div class="description">Enables or disables scaling and panning by the user.</div>
+		</li>
+	</ul>
+	<h3>Other Methods</h3>
+	<ul class="methods-list">
+		<li>
+			<h3 class="name">animate<span class="call">(f)</span></h3>
+			<div class="arguments">Arguments: <code class="prettyprint">Function(f)</code></div>
+			<div class="description">Repeatedly calls the function <code>f</code> with the argument <code class="prettyprint">Number(t)</code> which is the number of seconds beginning at <code>0</code>, until the function returns <code>false</code>. Chaining this command with further <code>animate</code> or <code>then</code> calls will wait for the previous animation to complete. If you want to have simultaneous animations, then don't chain them together.</div>
+		</li>
+		<li>
+			<h3 class="name">then<span class="call">(f)</span></h3>
+			<div class="arguments">Arguments: <code class="prettyprint">Function(f)</code></div>
+			<div class="description">When called in a chain that includes an <code>animate</code> call, the function <code>f</code> will be executed without arguments when the previous animation is complete.</div>
+		</li>
+		<li>
+			<h3 class="name">destroy<span class="call">()</span></h3>
+			<div class="arguments">Arguments: None</div>
+			<div class="description">Clears the graph from memory, and removes the iframe. Also ends all animations. Returns <code>null</code>. If you plan to keep the page open for a long time and get rid of the graph, then you should use this function.</div>
+		</li>
+		
+		
+	</ul>
+	<h3>Instance Object Properties</h3>
+	<ul class="methods-list">
+		<li>
+			<h3 class="name">id</h3>
+			<div class="arguments">Type: String</div>
+			<div class="description">Guaranteed unique (within the page) string associated with the graph instance.</div>
+		</li>
+		
+		<li>
+			<h3 class="name">send.iframeWin</h3>
+			<div class="arguments">Type: Browser Window Object</div>
+			<div class="description">Browser content-window associated with the iframe. Attempts to directly modify the window will result in cross domain errors. So don't use it unless you know what you are doing.</div>
+		</li>
+	</ul>
+	<h3>Constructor Object Methods</h3>
+	<ul class="methods-list">
+		<li>
+			<h3 class="name">Graph.noConflict<span class="call">()</span></h3>
+			<div class="arguments">Arguments: None</div>
+			<div class="description">Removes the <code class="prettyprint">window.Graph</code> constructor from the global object, and returns the Graph constructor.</div>
+		</li>
+		<li>
+			<h3 class="name">Graph.cubic<span class="call">(<code>t</code>)</span></h3>
+			<div class="arguments">Arguments: <code class="prettyprint">Number(t)</code></div>
+			<div class="description">Maps 0&le;t&le;1 to 0&le;f&le;1, for a cubic Bézier animation. Use this if you want your animations to be matched the feel of the animations built into graph.tk. For example, <code class="prettyprint">var f = Graph.cubic(t); var currentX = initial + (final - initial) * f;</code></div>
+		</li>
+		
+		
+	</ul>
+  </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="doc_css/prettify.js"></script>
+<script type="text/javascript" src="api.js"></script>
+<script type="text/javascript">
+(function(){
+  var i, l;
+  for(i = 0, l = b.length; i < l; i++) {
+    b[i]();
+  }
+  prettyPrint();
+}())
+</script>
+</body>
+</html>
