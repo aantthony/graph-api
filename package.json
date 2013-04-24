@@ -1,0 +1,15 @@
+{
+  "name": "graph-api",
+  "version": "0.0.0",
+  "description": "API for graph app (beta)",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aantthony/graph-api.git"
+  },
+  "author": "Anthony Foster",
+  "license": "BSD"
+}

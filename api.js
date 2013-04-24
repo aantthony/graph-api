@@ -3,7 +3,7 @@
 var host = "http://localhost";
 var listening = false;
 var graphs = {
-	
+
 };
 function message (e) {
 	if(e.origin !== host) {
@@ -18,7 +18,7 @@ var Graph = function (domElement, options) {
 	var iframe = document.createElement("iframe");
 	var g = this;
 	this.eventListeners = {};
-	
+
 	if(options.fadeIn !== false) {
 		iframe.style.opacity = "0.0";
 		iframe.style.webkitTransition = iframe.style.mozTransition = 'opacity 0.2s linear';
@@ -38,7 +38,7 @@ var Graph = function (domElement, options) {
 		iframe.contentWindow.postMessage(JSON.stringify(msg), host);
 	};
 	this.send.contentWindow = iframe.contentWindow;
-	
+
 	this._anim = [];
 	this._animating = false;
 	if(!listening) {
@@ -62,7 +62,7 @@ var Graph = function (domElement, options) {
 			}
 		});
 	};
-	
+
 	iframe.src = host + "/#api";
 };
 
