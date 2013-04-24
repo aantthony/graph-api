@@ -1,4 +1,4 @@
-var Graph = (function () {
+(function () {
 
 var host = "http://localhost";
 var listening = false;
@@ -216,5 +216,12 @@ Graph.prototype.render = function (width, height, callback) {
 	}
 	return this;
 };
-return Graph;
+if (typeof module === 'undefined') {
+    module.exports = Graph;
+} else {
+    // use a global varaible
+    window['Graph'] = Graph;
+}
+
+
 }());
